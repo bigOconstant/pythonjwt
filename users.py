@@ -6,8 +6,6 @@ from datetime import date
 from typing import NewType
 from json import dumps
 
-
-
 class User:
     id = 0
     username = ""
@@ -30,7 +28,6 @@ class User:
             print(self.email)
             print(self.id)
         
-
 def userExist(username)-> bool:
     con = GetConnection()
     cursor = con.cursor()
@@ -44,7 +41,6 @@ def userExist(username)-> bool:
     else:
         return True
     
-
 def CreateUser(username,password,email):
 
     hashval = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())

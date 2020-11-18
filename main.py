@@ -1,4 +1,5 @@
 import bcrypt
+from users import CreateUser,userExist,PasswordMatchesForUser
 
 password = b"super secret password"
 
@@ -16,3 +17,9 @@ if bcrypt.checkpw(password, hashed2):
     print("It Matches!")
 else:
     print("It Does not Match :(")
+
+print(userExist("caleb"))
+
+print(PasswordMatchesForUser("andrew","rabbit"))
+
+

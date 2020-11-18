@@ -1,10 +1,37 @@
-
 from connection import GetConnection
 import bcrypt
 import datetime
 from datetime import timedelta
+from datetime import date
+from typing import NewType
+from json import dumps
 
-def userExist(username):
+
+
+class User:
+    id = 0
+    username = ""
+    email = ""
+    
+    def ToDict(self):
+        return {"username":self.username,"email":self.email,"id":self.id  }
+    
+    def SetUser(self,uname):
+        con = GetConnection()
+        cursor = con.cursor()
+        sqlite_get_with_param = "SELECT id,email FROM users where username = :username ;"
+        cursor.execute(sqlite_get_with_param, {"username":uname})
+        rows = cursor.fetchall()
+        length = len(rows)
+        if(length > 0):
+            self.id = rows[0][0]
+            self.username = uname
+            self.email = rows[0][1]
+            print(self.email)
+            print(self.id)
+        
+
+def userExist(username)-> bool:
     con = GetConnection()
     cursor = con.cursor()
     sqlite_insert_with_param = "SELECT id FROM users where username = :username ;"
@@ -31,7 +58,7 @@ def CreateUser(username,password,email):
     cursor.close()
     return True
 
-def PasswordMatchesForUser(username,password):
+def PasswordMatchesForUser(username: str,password: str) ->bool:
     con = GetConnection()
     cursor = con.cursor()
     sqlite_insert_with_param = "SELECT password FROM users where username = :username ;"

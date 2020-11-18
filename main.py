@@ -1,25 +1,20 @@
 import bcrypt
 from users import CreateUser,userExist,PasswordMatchesForUser
 
-password = b"super secret password"
+def testthing(name: str)->str:
+    return "hello world"
 
-hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-hashed2 = bcrypt.hashpw(password,bcrypt.gensalt())
-
-print(hashed)
-
-if bcrypt.checkpw(password, hashed):
-    print("It Matches!")
-else:
-    print("It Does not Match :(")
-
-if bcrypt.checkpw(password, hashed2):
-    print("It Matches!")
-else:
-    print("It Does not Match :(")
-
-print(userExist("caleb"))
+print(userExist("andrew"))
 
 print(PasswordMatchesForUser("andrew","rabbit"))
+
+print(PasswordMatchesForUser("andrew","rabbit2"))
+
+
+
+print(PasswordMatchesForUser("sarahwang","sarahwang123"))
+
+print(PasswordMatchesForUser("sarahwang","sarahwang1234"))
+
 
 

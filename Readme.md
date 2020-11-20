@@ -9,7 +9,7 @@ This repo is meant to be a play ground on creating a custom login and jwt authen
 `python3 -m flask run`
 
 
-## Usages
+## Usage
 
 **Create User**
 

@@ -25,8 +25,6 @@ class User:
             self.id = rows[0][0]
             self.username = uname
             self.email = rows[0][1]
-            print(self.email)
-            print(self.id)
         
 def userExist(username)-> bool:
     con = GetConnection()
@@ -42,7 +40,6 @@ def userExist(username)-> bool:
         return True
     
 def CreateUser(username,password,email):
-
     hashval = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     user = (username,hashval,email,datetime.datetime.utcnow())
     con = GetConnection()
@@ -50,7 +47,6 @@ def CreateUser(username,password,email):
     sqlite_insert_with_param = "INSERT INTO users (username,password,email,date) VALUES(?, ?, ?, ?)"
     cursor.execute(sqlite_insert_with_param, user)
     con.commit()
-    print(cursor.lastrowid)
     cursor.close()
     return True
 

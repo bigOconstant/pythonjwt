@@ -18,7 +18,7 @@ curl --header "Content-Type: application/json" --request POST --data '{"username
 
 ```
 
-** Login, get a token **
+**Login, get a token**
 
 ```bash
 curl --header "Content-Type: application/json" \

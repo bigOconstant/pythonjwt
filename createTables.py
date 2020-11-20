@@ -13,9 +13,5 @@ c.execute('''CREATE TABLE IF NOT EXISTS tokens
 td = timedelta(days=4)
 data_tuple = (datetime.datetime.utcnow(), datetime.datetime.utcnow()+ td, "secretToken",1)
 
-sqlite_insert_with_param = """INSERT INTO 'tokens'
-                          ('creationdate', 'expirationdate', 'token','userid') 
-                          VALUES (?, ?, ?,?);"""
-c.execute(sqlite_insert_with_param, data_tuple)
 con.commit()
 c.close()

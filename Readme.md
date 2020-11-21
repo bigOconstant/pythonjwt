@@ -26,3 +26,13 @@ curl --header "Content-Type: application/json" \
   --data '{"username":"<username>","password":"<password>"}' \
   http://<flaskid>:<port>/login
 ```
+
+## Development
+
+Configured for VSCode remote development.
+
+`docker-compose up -d`
+
+Open base directory in vscode with remote container plugin installed.
+
+Click debug button

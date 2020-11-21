@@ -1,0 +1,11 @@
+version: "3.2"
+services:
+  user-service:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+        - FLASKAPP=app.py
+  
+    volumes:
+        - ./:/app

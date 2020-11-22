@@ -49,15 +49,4 @@ def GetTokenFromTokenId(tokid: str):
 
     return retVal
 
-def GetUserIdFromToken(tok: str):
-    con = GetConnection()
-    cursor = con.cursor()
-    sqlite_query = "SELECT id FROM tokens where token = :token ;"
-    cursor.execute(sqlite_insert_with_param, {"token":tok})
-    rows = cursor.fetchall()
-    length = len(rows)
-    id = -1
-    if(length > 0):
-        id = rows[0][0]
 
-    return id

@@ -26,9 +26,6 @@ app = FastAPI()
 async def root():
     return "Welcome to the User Service."
 
-#@app.route('/')
-# def home():
-#     return "<h1 style='text-align: center;'>Welcome to the User Service.</h1>"
 
 
 

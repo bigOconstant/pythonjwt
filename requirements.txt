@@ -1,5 +1,5 @@
 bcrypt
 fastapi
 requests
-jwt
-uvicornp
+PyJWT
+# uvicornp

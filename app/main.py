@@ -1,7 +1,6 @@
 # from flask import Flask,request
 import json
 import uvicorn
-import requests
 from users import userExist, PasswordMatchesForUser,User,CreateUser
 from jwtoken import CreateTokenForUser,GetTokenFromTokenId
 from typing import Optional
@@ -13,7 +12,7 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
-class UserRegister(BaseModel):
+class UserCreate(BaseModel):
     username: str
     password: str
     email: str
@@ -25,9 +24,6 @@ app = FastAPI()
 @app.get("/")
 async def root():
     return "Welcome to the User Service."
-
-
-
 
 @app.post("/login/")
 async def login(usr: UserLogin):
@@ -51,12 +47,11 @@ async def login(usr: UserLogin):
     response = {"success":True,"message":"success","token":tokenString}
     return json.dumps(response)
 
-@app.route('/register', methods=['POST']) #GET requests will be blocked
-async def register(usr: UserRegister):
+@app.post("/register")
+async def register(usr: UserCreate):
     response = {"success":False,"message":"username already in use"}
     password = usr.password
     username = usr.username
-    
     
     email = usr.email
 
@@ -74,5 +69,5 @@ async def register(usr: UserRegister):
 #
     
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="0.0.0.0", port=5000)

@@ -1,10 +1,12 @@
 import jwt
-from connection import GetConnection
-from users import User
+from app.connection import GetConnection
+from app.users import User
 from json import dumps
 import datetime
 from datetime import timedelta
 from datetime import date
+import os
+
 
 def myconverter(o): # used to serialise datetime
     if isinstance(o, datetime.datetime):
@@ -17,7 +19,8 @@ def CreateTokenForUser(usr: User):
     timeNow = datetime.datetime.utcnow()
     expireTime = timeNow+datetime.timedelta(days=5) # set it to expire in 5 days
     userobj['time'] = dumps(timeNow,default=myconverter) # add a time stamp so each token is unique
-    encoded_jwt = jwt.encode(userobj, 'secret', algorithm='HS256')
+    
+    encoded_jwt = jwt.encode(userobj, os.environ['SECRET'], algorithm='HS256')
     row = (timeNow,expireTime,encoded_jwt.decode('utf-8'),usr.id)
     con = GetConnection()
     cursor = con.cursor()
@@ -29,7 +32,7 @@ def CreateTokenForUser(usr: User):
     return rowid
 
 def GetUserFromToken(tok: str):
-    tokenObj = jwt.decode(tok, 'secret', algorithms=['HS256'])
+    tokenObj = jwt.decode(tok, os.environ['SECRET'], algorithms=['HS256'])
     usr = User()
     usr.id = tokenObj["id"]
     usr.username = tokenObj["username"]

@@ -1,4 +1,4 @@
-from connection import GetConnection
+from app.connection import GetConnection
 import bcrypt
 import datetime
 from datetime import timedelta

@@ -1,12 +1,24 @@
 # from flask import Flask,request
 import json
+import os
 import uvicorn
-from users import userExist, PasswordMatchesForUser,User,CreateUser
-from jwtoken import CreateTokenForUser,GetTokenFromTokenId
+
+curdir = os.getcwd()
+print(curdir)
+from app.users import userExist, PasswordMatchesForUser,User,CreateUser
+from app.jwtoken import CreateTokenForUser,GetTokenFromTokenId
 from typing import Optional
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from pathlib import Path
+
+my_file = Path("user.db")
+
+if not my_file.is_file():
+    curdir = os.getcwd()
+    print(curdir)
+    exec(open(curdir+'/app/createTables.py').read())
 
 class UserLogin(BaseModel):
     username: str
@@ -17,9 +29,7 @@ class UserCreate(BaseModel):
     password: str
     email: str
     
-
 app = FastAPI()
-
 
 @app.get("/")
 async def root():

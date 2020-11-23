@@ -5,6 +5,8 @@ RUN python3 -V
 COPY requirements.txt /req/requirements.txt
 WORKDIR /req
 RUN  pip3 install -r requirements.txt
+RUN pip3 install uvicorn
+RUN pip3 install pylint
 WORKDIR /app
 RUN rm -rf /req
 EXPOSE 5000

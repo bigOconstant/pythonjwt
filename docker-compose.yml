@@ -8,6 +8,7 @@ services:
       - "5000:5000"
     environment:
         - FLASKAPP=app.py
+	- SECRET=fishsauce
   
     volumes:
         - ./:/app

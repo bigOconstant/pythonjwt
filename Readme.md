@@ -30,7 +30,11 @@ curl --header "Content-Type: application/json" \
 
 ## Development
 
-Configured for VSCode remote development.
+Configured for VSCode remote container development.
+
+`docker-compose build`
+
+Builds a container with your current user as the user
 
 `docker-compose up -d`
 
@@ -39,3 +43,13 @@ Click reopen in container.
 
 click into importer.py, hit the debug button. A test server will start and listen on 
 port 5000. 
+
+
+## Testing
+
+A REST Client plugin is installed by default in the vscode remote development enviornment.
+
+Once connected in VSCode you can click in the file testendpoints.http and click send request
+
+
+

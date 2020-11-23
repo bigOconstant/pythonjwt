@@ -4,9 +4,11 @@ This repo is meant to be a play ground on creating a custom login and jwt authen
 
 ## Run instructions
 
-`export FLASKAPP=app.py`
+Expects a user.db file mounted in app directory. See docker-compose run for example
 
-`python3 -m flask run`
+## Secrets.
+
+Needs an environment variable **SECRET** to encode and decode tokens
 
 
 ## Usage
@@ -38,11 +40,14 @@ Builds a container with your current user as the user
 
 `docker-compose up -d`
 
-Open base directory in vscode with remote container plugin installed.
-Click reopen in container.
+Open base directory in vscode with remote container plugin installed. You can do this in bash with,
 
-click into importer.py, hit the debug button. A test server will start and listen on 
-port 5000. 
+`code .`
+
+
+Click reopen in container. or `f1->remote in container`
+
+Click debug play button and run
 
 
 ## Testing

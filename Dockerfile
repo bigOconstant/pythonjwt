@@ -1,17 +1,55 @@
+##########################################
+# Developer stage: for running in vscode #
+##########################################
 FROM centos:8 AS developer 
-RUN yum install python38 -y
-RUN yum install git -y
-RUN python3 -V
+
+#Make a username. You can pass in a custom username
+ARG USERNAME=developer 
+
+run echo "user is:" $USERNAME
+
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+USER root
+
+# Create the user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    #
+    # add sudo support
+    && yum update -y\
+    && yum install -y sudo \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+USER $USERNAME
+
+RUN sudo yum clean all
+RUN sudo yum install epel-release -y
+# emacs just a nice to have
+
+RUN sudo yum install git -y
+RUN sudo yum install unzip -y
+RUN sudo yum install wget -y
+RUN sudo yum install make -y
+RUN sudo yum install gcc -y
+RUN sudo yum install python38 -y
+
 COPY requirements.txt /req/requirements.txt
 WORKDIR /req
-RUN  pip3 install -r requirements.txt
-RUN pip3 install uvicorn
-RUN pip3 install pylint
+RUN  pip3 install -r requirements.txt --user
+RUN pip3 install uvicorn --user
+RUN pip3 install pylint --user
 WORKDIR /app
-RUN rm -rf /req
+RUN sudo rm -rf /req
 EXPOSE 5000
 CMD ["sleep", "infinity"]
 
+
+###############################################
+# Production stage: for running in production #
+##############################################
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 COPY ./app /app
 COPY requirements.txt /app/requirements.txt

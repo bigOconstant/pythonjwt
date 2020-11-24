@@ -2,4 +2,3 @@ bcrypt
 fastapi
 requests
 PyJWT
-# uvicornp

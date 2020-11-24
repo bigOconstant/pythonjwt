@@ -1,12 +1,10 @@
-##########################################
-# Developer stage: for running in vscode #
-##########################################
+############################################################
+# Developer stage: for running in vscode                   #
+############################################################
 FROM registry.access.redhat.com/ubi8/ubi:latest as developer
 
 #Make a username. You can pass in a custom username
 ARG USERNAME=developer 
-
-run echo "user is:" $USERNAME
 
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -37,13 +35,14 @@ RUN pip3 install uvicorn --user
 RUN pip3 install pylint --user
 WORKDIR /app
 RUN sudo rm -rf /req
+
 EXPOSE 5000
 CMD ["sleep", "infinity"]
 
 ###############################################
 # Production stage: for running in production #
-##############################################
+###############################################
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 COPY ./app /app
 COPY requirements.txt /app/requirements.txt
-run pip install -r /app/requirements.txt
+RUN pip install -r /app/requirements.txt

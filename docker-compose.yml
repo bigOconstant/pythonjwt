@@ -8,6 +8,7 @@ services:
         - USERNAME=$USER
     ports:
       - "5000:5000"
+    hostname: 'user-service'
     environment:
         - FLASKAPP=app.py
         - SECRET="fishsauce"

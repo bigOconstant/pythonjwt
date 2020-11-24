@@ -31,9 +31,14 @@ def CreateTokenForUser(usr: User):
     cursor.close()
     return rowid
 
-def GetUserFromToken(tok: str):
-    tokenObj = jwt.decode(tok, os.environ['SECRET'], algorithms=['HS256'])
+def GetUserFromToken(tok: str)-> User:
     usr = User()
+    try:
+        tokenObj = jwt.decode(tok, os.environ['SECRET'], algorithms=['HS256'])
+    except:
+        print("problem decoding token")
+        return usr
+    
     usr.id = tokenObj["id"]
     usr.username = tokenObj["username"]
     usr.email = tokenObj["email"]

@@ -43,7 +43,7 @@ CMD ["sleep", "infinity"]
 ###############################################
 # Production stage: for running in production #
 ##############################################
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 COPY ./app /app
 COPY requirements.txt /app/requirements.txt
 run pip install -r /app/requirements.txt

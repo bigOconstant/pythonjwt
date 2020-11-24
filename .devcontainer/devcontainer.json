@@ -24,7 +24,7 @@
 	},
 	
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": ["ms-python.python","nick-rudenko.back-n-forth","humao.rest-client"]
+	"extensions": ["ms-python.python","nick-rudenko.back-n-forth","humao.rest-client","ms-azuretools.vscode-docker"]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

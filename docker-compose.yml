@@ -14,3 +14,4 @@ services:
   
     volumes:
         - ./:/app
+        - ~/.ssh:/home/$USER/.ssh

@@ -6,7 +6,7 @@ import uvicorn
 curdir = os.getcwd()
 print(curdir)
 from app.users import userExist, PasswordMatchesForUser,User,CreateUser
-from app.jwtoken import CreateTokenForUser,GetTokenFromTokenId
+from app.jwtoken import CreateTokenForUser,GetTokenFromTokenId,GetUserFromToken
 from typing import Optional
 
 from fastapi import FastAPI
@@ -76,6 +76,18 @@ async def register(usr: UserCreate):
         response = {"success":False,"message":"Error Creating User"}
     return json.dumps(response)
 
+
+@app.get("/user")
+async def GetUser(token: str = ""):
+    if (token == ""):
+         returnVal = {"success":False}
+    
+    usr = GetUserFromToken(token)
+    if usr.id <1:
+        return {"success":False}
+    else:
+        returnVal = {"username":usr.username,"email":usr.email,"id":usr.id,"success":True}
+        return returnVal
 #
     
 

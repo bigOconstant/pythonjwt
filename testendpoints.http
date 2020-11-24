@@ -2,7 +2,7 @@ POST http://localhost:5000/register HTTP/1.1
 content-type: application/json
 
 {
-    "username": "testuser2",
+    "username": "testuser1",
     "password": "testpassword",
     "email": "testemail@gmail.com"
  }
@@ -12,8 +12,14 @@ POST http://localhost:5000/login/ HTTP/1.1
 content-type: application/json
 
 {
-    "username": "testuser2",
+    "username": "testuser1",
     "password": "testpassword"
  }
 
- ###
+###
+
+
+GET http://localhost:5000/user
+?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMSIsImVtYWlsIjoidGVzdGVtYWlsQGdtYWlsLmNvbSIsImlkIjoyLCJ0aW1lIjoiXCIyMDIwLTExLTI0IDAzOjIxOjU1LjU3OTcxMlwiIn0.FG_Xf3SlQUsAVOXWdxJUBqAnb6_3Jp46fWos9KlnCU8
+
+###

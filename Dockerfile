@@ -2,7 +2,6 @@
 # Developer stage: for running in vscode                   #
 ############################################################
 FROM registry.access.redhat.com/ubi8/ubi:latest as developer
-
 #Make a username. You can pass in a custom username
 ARG USERNAME=developer 
 
@@ -27,6 +26,8 @@ RUN sudo yum install wget -y
 RUN sudo yum install make -y
 RUN sudo yum install gcc -y
 RUN sudo yum install python38 -y
+RUN sudo yum install libffi-devel -y
+RUN sudo yum install python3-devel -y
 
 COPY requirements.txt /req/requirements.txt
 WORKDIR /req

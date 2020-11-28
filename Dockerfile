@@ -28,6 +28,7 @@ RUN sudo yum install gcc -y
 RUN sudo yum install python38 -y
 RUN sudo yum install libffi-devel -y
 RUN sudo yum install python3-devel -y
+RUN sudo yum install libpq-devel -y
 
 COPY requirements.txt /req/requirements.txt
 WORKDIR /req

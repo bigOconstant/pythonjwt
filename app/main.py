@@ -2,6 +2,7 @@
 import json
 import os
 import uvicorn
+from database.database import DataBase
 
 curdir = os.getcwd()
 print(curdir)
@@ -28,6 +29,12 @@ class UserCreate(BaseModel):
     username: str
     password: str
     email: str
+
+#db:str, user:str,password:str,host:str,port:str
+d =  DataBase("userdatabase","postgres","password123","db","5432")
+d.InialiseDatabase()
+
+
     
 app = FastAPI()
 

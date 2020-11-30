@@ -2,7 +2,7 @@
 import json
 import os
 import uvicorn
-from database.database import DataBase
+from app.database.DatabaseBaseClass import DatabaseSQLLite, DatabasePostGres
 
 curdir = os.getcwd()
 print(curdir)
@@ -14,12 +14,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from pathlib import Path
 
-my_file = Path("user.db")
+# my_file = Path("user.db")
 
-if not my_file.is_file():
-    curdir = os.getcwd()
-    print(curdir)
-    exec(open(curdir+'/app/createTables.py').read())
+# if not my_file.is_file():
+#     curdir = os.getcwd()
+#     print(curdir)
+#     exec(open(curdir+'/app/createTables.py').read())
 
 class UserLogin(BaseModel):
     username: str
@@ -31,9 +31,21 @@ class UserCreate(BaseModel):
     email: str
 
 #db:str, user:str,password:str,host:str,port:str
-d =  DataBase("userdatabase","postgres","password123","db","5432")
-d.InialiseDatabase()
+# d =  DatabasePostGres()
+# d.InitializeDatabase()
 
+# c = DatabaseSQLLite()
+# c.InitializeDatabase()
+
+# c.CreateUser("blah","blah","blah@gmail.com")
+
+# # print(c.UserExist("blah"))
+# # print(c.UserExist("truck"))
+
+# d.CreateUser("blah","blah","blah@gmail.com")
+
+# print(d.UserExist("blah"))
+# print(d.UserExist("truck"))
 
     
 app = FastAPI()
@@ -75,7 +87,7 @@ async def register(usr: UserCreate):
     if userExist(username):
         return json.dumps(response)
 
-    success = CreateUser(username,password,email)
+    success = c.CreateUser(username,password,email)
 
     if success:
         response = {"success":True,"message":"User Created Successfully"}

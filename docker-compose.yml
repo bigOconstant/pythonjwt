@@ -9,9 +9,17 @@ services:
     ports:
       - "5000:5000"
     hostname: 'user-service'
+    # "userdatabase","postgres","password123","db","5432"
     environment:
+        - DATABASETYPE:POSTGRES
         - FLASKAPP=app.py
         - SECRET="fishsauce"
+        # PostGres Connection information
+        - DATABASE=userdatabase
+        - PGUSERNAME=postgres
+        - PGPASSWORD=password123
+        - POSTGRESURL=db
+        - PGPORT=5432
   
     volumes:
         - ./:/app

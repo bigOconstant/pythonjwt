@@ -6,6 +6,9 @@ from datetime import date
 from typing import NewType
 from json import dumps
 
+from app.database.DatabaseBaseClass import DatabaseFactory
+
+
 class User:
     id = 0
     username = ""
@@ -27,27 +30,11 @@ class User:
             self.email = rows[0][1]
         
 def userExist(username)-> bool:
-    con = GetConnection()
-    cursor = con.cursor()
-    sqlite_insert_with_param = "SELECT id FROM users where username = :username ;"
-    cursor.execute(sqlite_insert_with_param, {"username":username})
-    rows = cursor.fetchall()
-    length = len(rows)
-    cursor.close()
-    if length == 0:
-        return False
-    else:
-        return True
+    return DatabaseFactory.GetDataBase().UserExist(username)
     
 def CreateUser(username,password,email):
     hashval = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    user = (username,hashval,email,datetime.datetime.utcnow())
-    con = GetConnection()
-    cursor = con.cursor()
-    sqlite_insert_with_param = "INSERT INTO users (username,password,email,date) VALUES(?, ?, ?, ?)"
-    cursor.execute(sqlite_insert_with_param, user)
-    con.commit()
-    cursor.close()
+    DatabaseFactory.GetDataBase().CreateUser(username,hashval,email)
     return True
 
 def PasswordMatchesForUser(username: str,password: str) ->bool:

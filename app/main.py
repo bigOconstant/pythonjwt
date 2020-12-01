@@ -31,11 +31,11 @@ class UserCreate(BaseModel):
     email: str
 
 #db:str, user:str,password:str,host:str,port:str
-# d =  DatabasePostGres()
-# d.InitializeDatabase()
+d = DatabasePostGres()
+d.InitializeDatabase()
 
-# c = DatabaseSQLLite()
-# c.InitializeDatabase()
+c = DatabaseSQLLite()
+c.InitializeDatabase()
 
 # c.CreateUser("blah","blah","blah@gmail.com")
 
@@ -87,7 +87,7 @@ async def register(usr: UserCreate):
     if userExist(username):
         return json.dumps(response)
 
-    success = c.CreateUser(username,password,email)
+    success = CreateUser(username,password,email)
 
     if success:
         response = {"success":True,"message":"User Created Successfully"}

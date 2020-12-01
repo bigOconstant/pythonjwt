@@ -11,7 +11,7 @@ services:
     hostname: 'user-service'
     # "userdatabase","postgres","password123","db","5432"
     environment:
-        - DATABASETYPE:POSTGRES
+        - DATABASETYPE=POSTGRES
         - FLASKAPP=app.py
         - SECRET="fishsauce"
         # PostGres Connection information

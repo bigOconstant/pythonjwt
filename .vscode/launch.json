@@ -11,6 +11,7 @@
             "request": "launch",
             "program": "/app/importer.py",
             "console": "integratedTerminal"
+            "env": {"DATABASETYPE":"POSTGRES"}
         }
     ]
 }

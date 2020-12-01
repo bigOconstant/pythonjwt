@@ -24,10 +24,16 @@ class DatabaseBaseClass:
         print("Saving user")
 
     def UserExist(self,username:str)->bool:
+        print("Checking user exist")
         return False
+    
+    def GetPasswordForUser(self,username:str)->str:
+        print("Getting password for user")
+        return ""
     
     def CreateUser(self):
         print("Creating user")
+    
         
 
 class DatabaseSQLLite(DatabaseBaseClass):
@@ -40,12 +46,20 @@ class DatabaseSQLLite(DatabaseBaseClass):
         cursor.execute(Query)
         rows = cursor.fetchall()
         UsersFound = False
+        tokensFound = False
         for row in rows:
             if row[0] == 'users':
                 UsersFound = True
+            if row[0] == 'tokens':
+                tokensFound = True
             
         if not UsersFound:
             fd = open('app/sqlfiles/CREATEUSERTABLESQLITE.sql', 'r')
+            sqlFile = fd.read()
+            cursor.execute(sqlFile)
+
+        if not tokensFound:
+            fd = open('app/sqlfiles/CREATETOKENTABLESQLITE.sql', 'r')
             sqlFile = fd.read()
             cursor.execute(sqlFile)
         
@@ -94,6 +108,16 @@ class DatabaseSQLLite(DatabaseBaseClass):
 
         return UserFound
 
+    def GetPasswordForUser(self,username:str)->str:
+        super().GetPasswordForUser(username)
+        con = self.GetConnection()
+        cursor = con.cursor()
+        Query = "SELECT password FROM users where username = ?"
+        cursor.execute(Query,(username,))
+        rows = cursor.fetchone()
+        print(rows)
+        return rows[0]
+
 class DatabasePostGres(DatabaseBaseClass):
     def __init__(self):
         
@@ -108,7 +132,7 @@ class DatabasePostGres(DatabaseBaseClass):
 
     def CreateUser(self,username:str,HashedPassword:str,email:str):
         super().CreateUser()
-        user = (username,HashedPassword,email,datetime.datetime.utcnow())
+        user = (username,HashedPassword.decode('ascii'),email,datetime.datetime.utcnow())
         con = self.GetConnection()
         cursor = con.cursor()
         insert_with_param_query = "INSERT INTO users (username,password,email,createdate) VALUES(%s, %s, %s, %s)"
@@ -139,19 +163,37 @@ class DatabasePostGres(DatabaseBaseClass):
         cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';")
         rows = cur.fetchall()
         userTableFound = False
+        tokensFound = False
         for row in rows:
             print(row[0])
             if row[0] == "users":
                  userTableFound = True
+            if row[0] == "tokens":
+                 tokensFound = True
         
         if not userTableFound:
             print("creating users table")
             fd = open('app/sqlfiles/CREATEUSERSTABLE.sql', 'r')
             sqlFile = fd.read()
             cur.execute(sqlFile)
+        
+        if not tokensFound:
+            print("creating tokens table")
+            fd = open('app/sqlfiles/CREATETOKENTABLEPOSTGRES.sql', 'r')
+            sqlFile = fd.read()
+            cur.execute(sqlFile)
 
         con.commit()
         con.close()
+
+    def GetPasswordForUser(self,username:str)->str:
+        super().GetPasswordForUser(username)
+        con = self.GetConnection()
+        cursor = con.cursor()
+        Query = "SELECT password FROM users where username = %s"
+        cursor.execute(Query,(username,))
+        rows = cursor.fetchone()
+        return rows[0].encode('utf-8')
 
     def InitUserDatabase(self):
         super().InitUserDatabase()

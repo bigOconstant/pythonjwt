@@ -30,23 +30,15 @@ class User:
             self.email = rows[0][1]
         
 def userExist(username)-> bool:
-    return DatabaseFactory.GetDataBase().UserExist(username)
+    return DatabaseFactory().GetDataBase().UserExist(username)
     
 def CreateUser(username,password,email):
     hashval = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    DatabaseFactory.GetDataBase().CreateUser(username,hashval,email)
+    DatabaseFactory().GetDataBase().CreateUser(username,hashval,email)
     return True
 
 def PasswordMatchesForUser(username: str,password: str) ->bool:
-    con = GetConnection()
-    cursor = con.cursor()
-    sqlite_insert_with_param = "SELECT password FROM users where username = :username ;"
-    cursor.execute(sqlite_insert_with_param, {"username":username})
-    rows = cursor.fetchall()
-    length = len(rows)
-    if(length > 0):
-        hashed = rows[0][0]
-        if bcrypt.checkpw(password.encode('utf-8'), hashed):
+    hashedpassword = DatabaseFactory().GetDataBase().GetPasswordForUser(username)
+    if bcrypt.checkpw(password.encode('utf-8'), hashedpassword):
             return True
-   
     return False

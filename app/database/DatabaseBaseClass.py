@@ -34,6 +34,9 @@ class DatabaseBaseClass:
     def CreateUser(self):
         print("Creating user")
     
+    def GetUserForUserName(self,username)-> map:
+        print("Getting user")
+    
         
 
 class DatabaseSQLLite(DatabaseBaseClass):
@@ -116,7 +119,25 @@ class DatabaseSQLLite(DatabaseBaseClass):
         cursor.execute(Query,(username,))
         rows = cursor.fetchone()
         print(rows)
-        return rows[0]
+        retVal = rows[0]
+        cursor.close()
+        return retVal
+
+    def GetUserForUserName(self,username)-> map:
+        super().GetUserForUserName(username)
+        con = self.GetConnection()
+        cursor = con.cursor()
+        sqlite_get_with_param = "SELECT id,email FROM users where username = :username ;"
+        cursor.execute(sqlite_get_with_param, {"username":username})
+        rows = cursor.fetchall()
+        length = len(rows)
+        user = {"id":0,"username":"","email":""}
+        if(length > 0):
+            user["id"] = rows[0][0]
+            user["username"] = username
+            user["email"] = rows[0][1]
+        cursor.close()
+        return user
 
 class DatabasePostGres(DatabaseBaseClass):
     def __init__(self):
@@ -153,6 +174,22 @@ class DatabasePostGres(DatabaseBaseClass):
             if row[0] == username:
                 UserFound = True
         return UserFound
+
+    def GetUserForUserName(self,username)-> map:
+        super().GetUserForUserName(username)
+        con = self.GetConnection()
+        cursor = con.cursor()
+        Query = "SELECT id,email FROM users where username = %s"
+        cursor.execute(Query, (username,))
+        rows = cursor.fetchall()
+        length = len(rows)
+        user = {"id":0,"username":"","email":""}
+        if(length > 0):
+            user["id"] = rows[0][0]
+            user["username"] = username
+            user["email"] = rows[0][1]
+        cursor.close()
+        return user
 
 
     def InitUserTable(self):

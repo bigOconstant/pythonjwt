@@ -18,16 +18,11 @@ class User:
         return {"username":self.username,"email":self.email,"id":self.id  }
     
     def SetUser(self,uname):
-        con = GetConnection()
-        cursor = con.cursor()
-        sqlite_get_with_param = "SELECT id,email FROM users where username = :username ;"
-        cursor.execute(sqlite_get_with_param, {"username":uname})
-        rows = cursor.fetchall()
-        length = len(rows)
-        if(length > 0):
-            self.id = rows[0][0]
-            self.username = uname
-            self.email = rows[0][1]
+        #GetUserForUserName
+        returnedUser = DatabaseFactory().GetDataBase().GetUserForUserName(uname)
+        self.id = returnedUser["id"]
+        self.username = returnedUser["username"]
+        self.email = returnedUser["email"]
         
 def userExist(username)-> bool:
     return DatabaseFactory().GetDataBase().UserExist(username)
